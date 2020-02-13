@@ -1,0 +1,40 @@
+{
+  "name": "pdfjs-viewer",
+  "version": "1.0.0",
+  "description": "A PDF.js viewer built with Typescript and React",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "test",
+    "start": "parcel src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdfjs-express/pdfjs-viewer.git"
+  },
+  "author": "Logan Bittner",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pdfjs-express/pdfjs-viewer/issues"
+  },
+  "homepage": "https://github.com/pdfjs-express/pdfjs-viewer#readme",
+  "devDependencies": {
+    "@types/react": "^16.9.19",
+    "parcel": "^2.0.0-alpha.3.2",
+    "sass": "^1.25.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "node-ensure": "0.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "staticFiles": {
+    "staticPath": [
+      {
+        "staticPath": "static",
+        "staticOutDir": "static"
+      }
+    ],
+    "watcherGlob": "**"
+  }
+}
