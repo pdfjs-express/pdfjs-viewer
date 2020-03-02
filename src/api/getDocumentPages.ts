@@ -1,12 +1,16 @@
 interface GetDocumentPagesOptions {
   scale?: number;
-  url: string
+  url: string;
+  onPageComplete: (pageIndex: number, url: string) => void;
+  onFinished: () => void
 }
 
 export default async ({
   scale = 1,
-  url
-}: GetDocumentPagesOptions): Promise<Array<string>> => {
+  url,
+  onPageComplete,
+  onFinished,
+}: GetDocumentPagesOptions) => {
   const PDFJS = window.pdfjsLib;
 
   // First, we need to load the document using the getDocument utility
@@ -15,25 +19,29 @@ export default async ({
 
   const { numPages } = pdf;
 
-  const canvasURLs = [];
+  const canvasPromises = [];
 
   // Now for every page in the document, we're going to add a page to the array
   for (let i = 0; i < numPages; i++) {
+    const pageIndex = i;
     const page = await pdf.getPage(i + 1);
 
-    const viewport = page.getViewport(scale);
+    const viewport = page.getViewport({ scale });
     const { width, height } = viewport;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     canvas.className = 'page'
-    await page.render({
-      canvasContext: canvas.getContext('2d'),
-      viewport
-    })
-
-    canvasURLs.push(canvas.toDataURL());
+    canvasPromises.push(
+      page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      }).then(() => {
+        onPageComplete(pageIndex, canvas.toDataURL());
+      })
+    )
   }
 
-  return canvasURLs;
+  await Promise.all(canvasPromises);
+  onFinished();
 }

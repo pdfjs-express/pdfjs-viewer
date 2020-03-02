@@ -1,6 +1,7 @@
 import React from 'react';
 import useDocument from '../../hooks/useDocument';
 import './Viewer.scss';
+import useGlobalState from '../../state/useGlobalState';
 
 export default () => {
 

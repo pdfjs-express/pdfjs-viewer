@@ -1,20 +1,28 @@
 import { useState, useEffect } from 'react';
 import getDocumentPages from '../api/getDocumentPages';
+import useGlobalState from '../state/useGlobalState';
 
 export default ({
   url
 }) => {
   const [pages, setPages] = useState<string[]>([]);
-  useEffect(() => {
-    const getPages = async () => {
-      const canvases = await getDocumentPages({
-        url
-      });
+  const [zoom] = useGlobalState('zoom');
 
-      setPages(canvases);
-    }
-    getPages();
-  }, [url])
+  useEffect(() => {
+    getDocumentPages({
+      url,
+      scale: zoom,
+      onPageComplete: (index, url) => {
+        setPages(old => {
+          const clone = [...old];
+          clone[index] = url;
+          return clone;
+        })
+      },
+      onFinished: () => { /*TODO*/ }
+    });
+  }, [url, zoom])
+
   return {
     pages
   }
