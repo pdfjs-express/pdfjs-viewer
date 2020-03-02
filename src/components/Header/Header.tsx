@@ -11,13 +11,13 @@ export default () => {
   return (
     <div className='Header'>
       <Button
-        icon='add_circle_outline'
-        onClick={() => setZoom(currentZoom * 1.5)}
+        icon='remove_circle_outline'
+        onClick={() => setZoom(currentZoom / 1.5)}
       /> 
 
       <Button
-        icon='remove_circle_outline'
-        onClick={() => setZoom(currentZoom / 1.5)}
+        icon='add_circle_outline'
+        onClick={() => setZoom(currentZoom * 1.5)}
       /> 
     </div>  
   )
